@@ -1,5 +1,5 @@
 import random
-
+import time
 import pygame
 
 
@@ -30,6 +30,10 @@ class PygameTutorial:
         pygame.display.set_caption("My first game")
         # change icon of image
         icon = pygame.image.load("pictures/farming.png")
+        #general sound
+        pygame.mixer.music.load("music/game.wav")
+        pygame.mixer.music.play(-1)
+        #backgound image
         background = pygame.image.load("pictures/background.jpeg")
         pygame.display.set_icon(icon)
         # set font and label for score
@@ -50,6 +54,7 @@ class PygameTutorial:
         # set font and label for game winner
         game_winner_font = pygame.font.SysFont(name="Arial", size=36, bold=True)
         label_game_winner = game_winner_font.render("WINNER!!", 1, (128, 255, 0), (127, 127, 127))
+        #set font and label for lost game
         x_initial = 428
         y_initial = 455
         x_change = 0
@@ -69,6 +74,10 @@ class PygameTutorial:
             '''
             if y_value_car_enemy > y_initial - 125 and x_initial == x_value_car_enemy:
                 print("You lost!")
+                #collision sound
+                collision_sound = pygame.mixer.Sound("music/collision.wav")
+                collision_sound.play()
+                time.sleep(2)
                 #we use this in order to quit in case of replay and collision
                 pygame.quit()
                 break
@@ -77,9 +86,12 @@ class PygameTutorial:
             do this also in our while loop maybe if we can
             '''
             # if we pass the enemy car then we want a new car to appear
-            if y_value_car_enemy > self.width - 75:
+            if y_value_car_enemy > self.width - 115:
                 # if our car is passes we will increment the score
                 score += 100
+                #pass sound
+                pass_sound = pygame.mixer.Sound("music/passing.wav")
+                pass_sound.play()
                 label_score_int = font_int.render(str(score), 1, (0, 0, 0), (255, 255, 255))
                 x_value_car_enemy = self.define_random_x_value()
                 y_value_car_enemy = random.randint(0, 200)  # we want to appear at least top of screen
